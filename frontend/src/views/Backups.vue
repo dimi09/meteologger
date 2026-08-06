@@ -3,7 +3,7 @@
     <div class="page-title">Αντίγραφα ασφαλείας βάσης</div>
     <el-alert type="info" :closable="false" style="margin-bottom:14px"
       title="Δημιουργούνται αυτόματα καθημερινά και διατηρούνται τα τελευταία 7 αντίγραφα." />
-    <el-table :data="backups" v-loading="loading" style="width:100%; background:#fff; border-radius:12px">
+    <el-table :data="backups"  empty-text="No data" v-loading="loading" style="width:100%; background:#fff; border-radius:12px">
       <el-table-column prop="name" label="Αρχείο" min-width="300" show-overflow-tooltip />
       <el-table-column label="Μέγεθος" width="140">
         <template slot-scope="s">{{ size(s.row.size_bytes) }}</template>

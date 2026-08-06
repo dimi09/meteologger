@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">Αποθηκευμένα αρχεία</div>
-    <el-table :data="files" v-loading="loading" style="width:100%; background:#fff; border-radius:12px">
+    <el-table :data="files" empty-text="No data" v-loading="loading" style="width:100%; background:#fff; border-radius:12px">
       <el-table-column prop="name" label="Όνομα αρχείου" min-width="320" show-overflow-tooltip />
       <el-table-column label="Μέγεθος" width="140">
         <template slot-scope="s">{{ size(s.row.size_bytes) }}</template>

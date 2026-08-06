@@ -15,8 +15,7 @@
         <div class="el-upload__text">Σύρε το αρχείο <em>.xlsx</em> εδώ ή κάνε κλικ</div>
       </el-upload>
       <div class="hint">
-        Ο πίνακας εντοπίζεται αυτόματα — τυχόν γραμμές πάνω από τις κεφαλίδες αγνοούνται.
-        Οι διπλές χρονικές εγγραφές δεν εισάγονται ξανά.
+        Ο πίνακας εντοπίζεται αυτόματα
       </div>
       <el-alert v-if="result" style="margin-top:16px" type="success" :closable="false"
         :title="`${result.message} Εγγραφές που προστέθηκαν: ${result.rows_inserted}`" />
