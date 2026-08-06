@@ -1,0 +1,77 @@
+// MeteoLogger brand palette (από το logo)
+$ml-navy:   #0b3d68;
+$ml-blue:   #2f80ed;
+$ml-blue-2: #2d9cdb;
+$ml-bg:     #f4f7fb;
+$ml-text:   #1f2d3d;
+
+:root {
+  --ml-navy: #{$ml-navy};
+  --ml-blue: #{$ml-blue};
+  --ml-bg:   #{$ml-bg};
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: $ml-text;
+  background: $ml-bg;
+}
+
+/* Login */
+.login-wrap {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $ml-navy 0%, $ml-blue-2 100%);
+}
+.login-card {
+  width: 380px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 34px 30px;
+  box-shadow: 0 18px 50px rgba(4, 26, 51, 0.28);
+  text-align: center;
+  .logo { width: 190px; margin: 4px auto 6px; display: block; }
+  .subtitle { color: #7a8aa0; font-size: 13px; margin-bottom: 22px; }
+}
+
+/* Layout */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  padding: 0 20px;
+  background: $ml-navy;
+  color: #fff;
+  .brand { font-weight: 600; font-size: 18px; letter-spacing: .3px; }
+  .brand span { color: $ml-blue-2; }
+  .header-logo { height: 34px; }
+  .spacer { flex: 1; }
+  .uniwa { height: 40px; background:#fff; padding:3px 6px; border-radius:6px; }
+  .user { font-size: 13px; opacity: .9; }
+}
+.app-body { display: flex; height: calc(100vh - 60px); }
+.app-side { width: 220px; background: #fff; border-right: 1px solid #e6ebf2; }
+.app-main { flex: 1; padding: 24px; overflow: auto; }
+
+.page-title { font-size: 20px; font-weight: 600; margin: 0 0 18px; color: $ml-navy; }
+
+/* Stat cards */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
+.stat-card {
+  background: #fff; border-radius: 12px; padding: 20px;
+  box-shadow: 0 4px 14px rgba(11,61,104,.06); border: 1px solid #eef2f7;
+  .label { color: #8296ac; font-size: 13px; }
+  .value { font-size: 24px; font-weight: 700; color: $ml-navy; margin-top: 6px; word-break: break-word; }
+}
+
+.upload-card {
+  background:#fff; border-radius:12px; padding:28px; max-width:640px;
+  box-shadow:0 4px 14px rgba(11,61,104,.06); border:1px solid #eef2f7;
+}
+.hint { color:#8296ac; font-size:13px; margin-top:10px; }
+.grafana-frame { width:100%; height: calc(100vh - 150px); border:0; border-radius:12px; background:#fff; }

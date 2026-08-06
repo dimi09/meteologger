@@ -1,0 +1,24 @@
+# ---- Secrets & runtime data (ΠΟΤΕ στο git) ----
+.env
+storage/
+/srv/measurelog/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- Node / Vue build ----
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-error.log*
+
+# ---- IDE / OS ----
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,416 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0,211,255,1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Θερμοκρασία",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", temp AS \"Temperature\", dewpoint AS \"Dew point\", windchill AS \"Wind chill\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Υγρασία",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", (humidity*100) AS \"Humidity\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "pressurehpa"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Βαρομετρική Πίεση",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", barometer AS \"Barometer\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Άνεμος (ταχύτητα & ριπή)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", windspeed AS \"Wind speed\", windgust AS \"Wind gust\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "lengthmm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Βροχόπτωση",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", rain AS \"Rain\", rainrate AS \"Rain rate\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "meteologger_pg"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "watt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "UV index"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "title": "Ηλιακή Ακτινοβολία & UV",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "meteologger_pg"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT timestamp AS \"time\", radiation AS \"Solar radiation\", uv AS \"UV index\" FROM weather_data WHERE $__timeFilter(timestamp) ORDER BY timestamp",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "meteologger",
+    "weather",
+    "davis"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "MeteoLogger — Μετεωρολογικός Σταθμός DAVIS",
+  "uid": "meteologger_weather",
+  "version": 1,
+  "weekStart": ""
+}

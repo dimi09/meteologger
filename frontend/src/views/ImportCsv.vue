@@ -1,0 +1,49 @@
+<template>
+  <div>
+    <div class="page-title">Εισαγωγή CSV</div>
+    <div class="upload-card">
+      <el-upload
+        drag
+        :action="action"
+        :headers="headers"
+        accept=".csv"
+        :limit="1"
+        :on-success="onSuccess"
+        :on-error="onError"
+        :before-upload="onBefore">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">Σύρε το αρχείο <em>.csv</em> εδώ ή κάνε κλικ</div>
+      </el-upload>
+      <div class="hint">
+        Το CSV μετατρέπεται και αποθηκεύεται ως <strong>.xlsx</strong> στον ίδιο φάκελο, για ιστορικό.
+        Οι διπλές χρονικές εγγραφές δεν εισάγονται ξανά.
+      </div>
+      <el-alert v-if="result" style="margin-top:16px" type="success" :closable="false"
+        :title="`${result.message} Εγγραφές που προστέθηκαν: ${result.rows_inserted}`" />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ImportCsv",
+  data() { return { result: null }; },
+  computed: {
+    action() { return "/api/import/csv"; },
+    headers() { return { Authorization: `Bearer ${this.$store.state.token}` }; }
+  },
+  methods: {
+    onBefore(file) {
+      const ok = file.name.toLowerCase().endsWith(".csv");
+      if (!ok) this.$message.error("Επίτρεπτα μόνο .csv αρχεία.");
+      return ok;
+    },
+    onSuccess(res) { this.result = res; this.$message.success("Επιτυχής εισαγωγή."); },
+    onError(err) {
+      let msg = "Αποτυχία εισαγωγής.";
+      try { msg = JSON.parse(err.message).detail || msg; } catch (e) { /* noop */ }
+      this.$message.error(msg);
+    }
+  }
+};
+</script>
