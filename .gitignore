@@ -2,6 +2,7 @@
 .env
 storage/
 /srv/measurelog/
+docker-compose.dev.yaml
 
 # ---- Python ----
 __pycache__/
@@ -15,6 +16,8 @@ frontend/node_modules/
 frontend/dist/
 npm-debug.log*
 yarn-error.log*
+frontend\vue.config.txt
+frontend\vue.config.js
 
 # ---- IDE / OS ----
 .idea/

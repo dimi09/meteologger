@@ -2,11 +2,12 @@
   <div>
     <div class="app-header">
       <img class="header-logo" :src="logo" alt="logo" />
-      <div class="brand">Meteo<span>Logger</span></div>
+      <!-- <div class="brand">Meteo<span>Logger</span></div> -->
       <div class="spacer"></div>
-      <img class="uniwa" :src="uniwa" alt="ΠΑΔΑ" />
       <span class="user"><i class="el-icon-user-solid"></i> {{ username }}</span>
-      <el-button type="text" style="color:#fff" @click="logout">Αποσύνδεση</el-button>
+      <!-- <el-button type="text" class="logout" style="color:#fff" @click="logout">Αποσύνδεσ</el-button> -->
+      <el-button type="primary" round @click="logout">Αποσύνδεση</el-button>
+      <img class="uniwa" :src="uniwa" alt="ΠΑΔΑ" />
     </div>
     <div class="app-body">
       <div class="app-side">
@@ -28,7 +29,7 @@
 
 <script>
 import logo from "@/assets/meteologger-logo.png";
-import uniwa from "@/assets/uniwa-logo.jpg";
+import uniwa from "@/assets/uniwa-logo.png";
 
 export default {
   name: "AppLayout",
