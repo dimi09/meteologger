@@ -4,7 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG VUE_APP_GRAFANA_URL
+# Προαιρετικό: σταθερό URL Grafana. Κενό = υπολογίζεται στον browser (<host>:3000).
+ARG VUE_APP_GRAFANA_URL=
 ENV VUE_APP_GRAFANA_URL=$VUE_APP_GRAFANA_URL
 RUN npm run build
 

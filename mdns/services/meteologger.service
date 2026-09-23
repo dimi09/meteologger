@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<!-- Ανακάλυψη υπηρεσιών στο LAN (π.χ. για μελλοντικό Electron client). -->
+<service-group>
+  <name replace-wildcards="yes">MeteoLogger on %h</name>
+  <service>
+    <type>_http._tcp</type>
+    <port>80</port>
+    <txt-record>path=/</txt-record>
+  </service>
+  <service>
+    <type>_meteologger._tcp</type>
+    <port>8000</port>
+    <txt-record>api=/api</txt-record>
+    <txt-record>web=80</txt-record>
+    <txt-record>grafana=3000</txt-record>
+  </service>
+</service-group>

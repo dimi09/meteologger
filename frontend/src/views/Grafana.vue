@@ -15,8 +15,13 @@
 export default {
   name: "Grafana",
   computed: {
-    // Ρυθμίζεται κατά το build· default το ονοματισμένο host.
-    grafanaUrl() { return process.env.VUE_APP_GRAFANA_URL || "http://grafana.meteologger.local/"; }
+    // Plug-and-play: ίδιο host με αυτό που άνοιξε ο χρήστης (π.χ. <hostname>.local
+    // ή IP), στη θύρα 3000. Το VUE_APP_GRAFANA_URL (αν οριστεί) έχει προτεραιότητα.
+    grafanaUrl() {
+      if (process.env.VUE_APP_GRAFANA_URL) return process.env.VUE_APP_GRAFANA_URL;
+      const { protocol, hostname } = window.location;
+      return `${protocol}//${hostname}:3000/`;
+    }
   },
   methods: { open() { window.open(this.grafanaUrl, "_blank"); } }
 };

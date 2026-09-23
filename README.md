@@ -2,7 +2,7 @@
 
 Πλατφόρμα συλλογής, αποθήκευσης και παρακολούθησης μετρήσεων μετεωρολογικού σταθμού DAVIS.
 Backend (FastAPI) + Admin (Vue2/ElementUI) + PostgreSQL + Grafana + Adminer + αυτόματα backups,
-όλα μέσω Docker Compose πίσω από reverse proxy με ονόματα.
+όλα μέσω Docker Compose πίσω από reverse proxy, με αυτόματη ανακάλυψη στο LAN (mDNS).
 
 ## Γρήγορη εκκίνηση
 
@@ -13,27 +13,47 @@ docker compose up -d
 docker compose ps
 ```
 
-### Ονοματισμένη πρόσβαση (προτεινόμενο)
+### Πρόσβαση από το LAN (plug-and-play, χωρίς αρχείο hosts)
 
-Πρόσθεσε στο hosts των client PC:
+Το service `mdns` (Avahi) ανακοινώνει αυτόματα τον server στο τοπικό δίκτυο ως
+**`<hostname-του-server>.local`**. Δεν χρειάζεται IP, ούτε εγγραφές στο
+`C:\Windows\System32\drivers\etc\hosts` των clients.
 
-- Windows: `C:\Windows\System32\drivers\etc\hosts`
-- Linux/Mac: `/etc/hosts`
+Π.χ. αν ο Linux server λέγεται `meteo-lab`:
 
-```text
-127.0.0.1   admin.meteologger.local grafana.meteologger.local adminer.meteologger.local
+- Διαχειριστικό: http://meteo-lab.local
+- Grafana:       http://meteo-lab.local:3000
+- Adminer:       http://meteo-lab.local:8080
+- API / Swagger: http://meteo-lab.local:8000/docs
+
+Όλα δουλεύουν και με την IP του server ή με `localhost` (τίποτα δεν είναι hardcoded).
+Το frontend καλεί το API σχετικά (`/api`) και το Grafana στο ίδιο host, θύρα 3000.
+
+Το hostname του server φαίνεται / αλλάζει με:
+
+```bash
+hostnamectl                               # τρέχον όνομα
+sudo hostnamectl set-hostname meteo-lab   # μοναδικό όνομα στο δίκτυο
 ```
 
-(Στο LAN βάλε την IP του server αντί για 127.0.0.1, π.χ. `192.168.1.18`.)
+Για σταθερό όνομα ανεξάρτητα από το hostname: `MDNS_HOSTNAME=meteologger` στο `.env`.
 
-Μετά:
+Σημειώσεις:
 
-- Διαχειριστικό: http://admin.meteologger.local
-- Grafana:       http://grafana.meteologger.local
-- Adminer:       http://adminer.meteologger.local
+- Το `mdns` χρησιμοποιεί `network_mode: host`, άρα λειτουργεί σε **Linux server**
+  (όχι σε Docker Desktop Windows/Mac).
+- Αν ο server έχει ήδη `avahi-daemon` (π.χ. Ubuntu Desktop), απενεργοποίησέ τον για
+  να μη συγκρούεται με το container:
+  `sudo systemctl disable --now avahi-daemon.socket avahi-daemon.service`
+- Windows clients: το δίκτυο πρέπει να είναι «Ιδιωτικό» (Private), αλλιώς το firewall
+  μπλοκάρει το mDNS (UDP 5353).
+- Αν δύο συσκευές έχουν το ίδιο όνομα, το Avahi προσθέτει `-2` (βλ. `docker compose logs mdns`).
+- Εκτός από το όνομα, ανακοινώνεται και υπηρεσία `_meteologger._tcp` (θύρα 8000) για
+  αυτόματη ανακάλυψη από desktop clients (π.χ. Electron).
 
-### Dev πρόσβαση (χωρίς hosts, προαιρετικό)
+### Dev (`docker-compose.dev.yaml`)
 
+- Εφαρμογή: http://localhost:8081
 - Swagger:  http://localhost:8000/docs
 - Grafana:  http://localhost:3000
 - Adminer:  http://localhost:8080
@@ -50,7 +70,8 @@ meteologger/
 ├── .env / .env.example
 ├── backend/        FastAPI (auth, import excel/csv, files, backups, summary)
 ├── frontend/       Vue2 + ElementUI + Vuex + Axios (admin)
-├── nginx/          reverse proxy (ονόματα)
+├── nginx/          reverse proxy (θύρες 80 / 3000 / 8080)
+├── mdns/           Avahi: ανακοίνωση <hostname>.local στο LAN
 ├── grafana/        provisioning + dashboard
 └── backup/         καθημερινό pg_dump (retention 7 ημερών)
 ```
