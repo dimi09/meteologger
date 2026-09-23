@@ -20,12 +20,16 @@
 </template>
 
 <script>
-import logo from "@/assets/meteologger-logo.png";
+import logoLight from "@/assets/meteologger-logo.png";
+import logoDark from "@/assets/meteologger-logo-dark.png";
 
 export default {
   name: "Login",
   data() {
-    return { form: { username: "", password: "" }, loading: false, logo };
+    return { form: { username: "", password: "" }, loading: false };
+  },
+  computed: {
+    logo() { return this.$theme.dark ? logoDark : logoLight; }
   },
   methods: {
     async submit() {

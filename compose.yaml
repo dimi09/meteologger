@@ -73,6 +73,7 @@ services:
       - "8080:8080"   # Adminer
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${MEASURELOG_DATA_DIR:-./storage}/desktop:/usr/share/nginx/desktop:ro
 
   grafana:
     image: grafana/grafana:11.4.0
@@ -122,6 +123,30 @@ services:
     volumes:
       - ${MEASURELOG_DATA_DIR:-./storage}/backups:/backups
 
+  # --- Build της desktop εφαρμογής (Windows installer) ---
+  # Δεν τρέχει με το `up`. Χρήση (στον server, μετά από αλλαγή στο desktop/):
+  #   docker compose --profile desktop run --rm desktop-build
+  # Το αποτέλεσμα μπαίνει στο ${MEASURELOG_DATA_DIR}/desktop και οι χρήστες
+  # βλέπουν αυτόματα την ενημέρωση (αν αυξήθηκε το version στο desktop/package.json).
+  desktop-build:
+    image: electronuserland/builder:wine
+    profiles: ["desktop"]
+    working_dir: /project
+    volumes:
+      - ./desktop:/project
+      - desktop_node_modules:/project/node_modules
+      - ${MEASURELOG_DATA_DIR:-./storage}/desktop:/out
+    command:
+      - bash
+      - -c
+      - >-
+        npm ci &&
+        npx electron-builder --win nsis --publish never -c.directories.output=/tmp/dist &&
+        cp /tmp/dist/*.exe /tmp/dist/*.blockmap /out/ &&
+        cp /tmp/dist/latest.yml /out/latest.yml &&
+        echo "OK: $$(grep '^version' /out/latest.yml)" && ls -la /out
+
 volumes:
   pgdata:
   grafana_data:
+  desktop_node_modules:

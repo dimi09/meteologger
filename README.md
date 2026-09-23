@@ -58,6 +58,50 @@ sudo hostnamectl set-hostname meteo-lab   # μοναδικό όνομα στο �
 - Grafana:  http://localhost:3000
 - Adminer:  http://localhost:8080
 
+## Desktop εφαρμογή (Windows)
+
+Ο φάκελος `desktop/` περιέχει μια Electron εφαρμογή που:
+
+- **βρίσκει μόνη της τον server** στο LAN (mDNS, υπηρεσία `_meteologger._tcp`).
+  Αν βρει πολλούς, δείχνει λίστα· αν δεν βρει κανέναν, δέχεται χειροκίνητα όνομα/IP.
+- **φορτώνει το web app από τον server**, άρα κάθε αλλαγή στο frontend φτάνει
+  στους χρήστες αμέσως, χωρίς νέο installer.
+- **ενημερώνεται μόνη της**: ελέγχει το `http://<server>/desktop/` στην εκκίνηση
+  και κάθε 1 ώρα, ρωτά τον χρήστη και εγκαθιστά τη νέα έκδοση.
+
+### Build & δημοσίευση νέας έκδοσης (στον server)
+
+```bash
+git pull
+# 1. αύξησε το version στο desktop/package.json (π.χ. 1.0.0 -> 1.0.1)
+# 2. χτίσε τον installer (Windows .exe μέσω Docker, δεν χρειάζεται Windows/Node)
+docker compose --profile desktop run --rm desktop-build
+```
+
+Τα αρχεία μπαίνουν στο `${MEASURELOG_DATA_DIR}/desktop/` και σερβίρονται από τον
+Nginx στο `http://<server>/desktop/`. Οι εγκατεστημένες εφαρμογές βλέπουν την
+ενημέρωση αυτόματα. **Χωρίς αύξηση του version δεν εμφανίζεται ενημέρωση.**
+
+### Πρώτη εγκατάσταση
+
+Από το web app: κουμπί **«Desktop εφαρμογή»** πάνω δεξιά (εμφανίζεται μόλις
+υπάρξει build) → κατεβάζει το `MeteoLogger-Setup-x.y.z.exe`.
+
+- Ο installer δεν είναι ψηφιακά υπογεγραμμένος: στο μήνυμα των Windows
+  «Τα Windows προστάτεψαν τον υπολογιστή σας» → «Περισσότερες πληροφορίες» → «Εκτέλεση».
+- Στην πρώτη εκκίνηση μπορεί να εμφανιστεί το Τείχος προστασίας: επίτρεψε
+  την πρόσβαση σε **Ιδιωτικά δίκτυα** (χρειάζεται για την αυτόματη εύρεση server).
+- Μενού «Εφαρμογή»: αλλαγή server, χειροκίνητος έλεγχος ενημερώσεων.
+
+### Development (στα Windows)
+
+```bash
+cd desktop
+npm install
+npm start          # τρέχει την εφαρμογή (χωρίς auto-update)
+npm run dist       # χτίζει τοπικά τον installer στο desktop/dist/
+```
+
 ## Είσοδος διαχειριστικού
 
 Τα credentials από το `.env` (`ADMIN_USERNAME` / `ADMIN_PASSWORD`).
@@ -72,6 +116,7 @@ meteologger/
 ├── frontend/       Vue2 + ElementUI + Vuex + Axios (admin)
 ├── nginx/          reverse proxy (θύρες 80 / 3000 / 8080)
 ├── mdns/           Avahi: ανακοίνωση <hostname>.local στο LAN
+├── desktop/        Electron desktop εφαρμογή (auto-discovery + auto-update)
 ├── grafana/        provisioning + dashboard
 └── backup/         καθημερινό pg_dump (retention 7 ημερών)
 ```
@@ -87,7 +132,8 @@ storage/
 ├── uploads/    ανεβασμένα Excel (+ CSV μετατραπέντα σε xlsx)
 ├── imports/    (μελλοντική χρήση)
 ├── exports/    (μελλοντική χρήση)
-└── backups/    pg_dump *.dump
+├── backups/    pg_dump *.dump
+└── desktop/    installer + latest.yml της desktop εφαρμογής
 ```
 
 ## Σημειώσεις

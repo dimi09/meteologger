@@ -1,0 +1,148 @@
+html.dark {
+  // Παλέτα ευθυγραμμισμένη με το dark theme του Grafana 11,
+  // ώστε η εφαρμογή και το ενσωματωμένο Grafana να δείχνουν ενιαία.
+  --ml-bg: #111217;          // Grafana canvas
+  --ml-surface: #181b1f;     // Grafana background.primary (header, μενού, κάρτες)
+  --ml-surface-2: #22252b;   // Grafana background.secondary (hover / active)
+  --ml-border: #2e3036;      // Grafana border.weak
+  --ml-border-soft: #25282e;
+  --ml-text: #ccccdc;        // Grafana text.primary
+  --ml-text-muted: #8d8e9a;  // Grafana text.secondary
+  --ml-title: #6e9fff;       // Grafana text.link
+  --ml-header-bg: #181b1f;
+  --ml-header-text: #ccccdc;
+  --ml-header-btn: #3d71d9;  // Grafana primary button
+  --ml-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+
+  --el-blue: #6e9fff;
+  --ml-input-bg: #111217;
+}
+
+html.dark {
+  // ---------- Login ----------
+  .login-wrap {
+    background: linear-gradient(135deg, #111217 0%, #1c2a45 100%);
+  }
+
+  .app-header {
+    border-bottom: 1px solid var(--ml-border);
+  }
+
+  // ---------- Μενού ----------
+  .el-menu {
+    background-color: var(--ml-surface);
+    border-right-color: var(--ml-border);
+  }
+  .el-menu-item {
+    color: var(--ml-text);
+    i { color: var(--ml-text-muted); }
+    &:hover, &:focus { background-color: var(--ml-surface-2); }
+    &.is-active { color: var(--el-blue); i { color: var(--el-blue); } }
+  }
+
+  // ---------- Πίνακες ----------
+  .el-table,
+  .el-table tr,
+  .el-table th.el-table__cell,
+  .el-table__expanded-cell {
+    background-color: var(--ml-surface);
+    color: var(--ml-text);
+  }
+  .el-table th.el-table__cell { color: var(--ml-text-muted); }
+  .el-table td.el-table__cell,
+  .el-table th.el-table__cell.is-leaf {
+    border-bottom-color: var(--ml-border);
+  }
+  .el-table::before,
+  .el-table--border::after,
+  .el-table--group::after { background-color: var(--ml-border); }
+  .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell,
+  .el-table__body tr.hover-row > td.el-table__cell {
+    background-color: var(--ml-surface-2);
+  }
+  .el-table__empty-text { color: var(--ml-text-muted); }
+
+  // ---------- Φόρμες ----------
+  .el-form-item__label { color: var(--ml-text); }
+  .el-input__inner,
+  .el-textarea__inner {
+    background-color: var(--ml-input-bg);
+    border-color: var(--ml-border);
+    color: var(--ml-text);
+    &::placeholder { color: var(--ml-text-muted); }
+    &:hover { border-color: #464a53; }
+    &:focus { border-color: var(--el-blue); }
+  }
+  .el-input__icon { color: var(--ml-text-muted); }
+
+  // ---------- Κουμπιά (default) ----------
+  .el-button--default {
+    background-color: var(--ml-surface-2);
+    border-color: var(--ml-border);
+    color: var(--ml-text);
+    &:hover, &:focus {
+      color: var(--el-blue);
+      border-color: #3d71d9;
+      background-color: rgba(61, 113, 217, .15);
+    }
+  }
+
+  // ---------- Upload ----------
+  .el-upload-dragger {
+    background-color: var(--ml-surface);
+    border-color: var(--ml-border);
+    &:hover, &.is-dragover { border-color: var(--el-blue); }
+    .el-upload__text { color: var(--ml-text-muted); }
+    .el-icon-upload { color: #5a5d66; }
+  }
+  .el-upload-list__item {
+    .el-upload-list__item-name { color: var(--ml-text); }
+    &:hover { background-color: var(--ml-surface-2); }
+  }
+
+  // ---------- Μηνύματα / alerts ----------
+  .el-alert.is-light {
+    &.el-alert--info { background-color: var(--ml-surface-2); }
+    &.el-alert--success { background-color: rgba(103, 194, 58, .12); }
+    &.el-alert--warning { background-color: rgba(230, 162, 60, .12); }
+    &.el-alert--error { background-color: rgba(245, 108, 108, .12); }
+    &.el-alert--info .el-alert__title,
+    &.el-alert--info .el-alert__description { color: var(--ml-text-muted); }
+  }
+
+  .el-empty__description p { color: var(--ml-text-muted); }
+  .el-empty__image { opacity: .55; }
+
+  .el-loading-mask { background-color: rgba(17, 18, 23, .75); }
+
+  // ---------- Popups (dropdown, message box) ----------
+  .el-dropdown-menu,
+  .el-popper {
+    background-color: var(--ml-surface);
+    border-color: var(--ml-border);
+  }
+  .el-dropdown-menu__item {
+    color: var(--ml-text);
+    &:not(.is-disabled):hover, &:focus {
+      background-color: var(--ml-surface-2);
+      color: var(--el-blue);
+    }
+  }
+  .el-popper[x-placement^="bottom"] .popper__arrow { border-bottom-color: var(--ml-border); }
+  .el-popper[x-placement^="bottom"] .popper__arrow::after { border-bottom-color: var(--ml-surface); }
+  .el-popper[x-placement^="top"] .popper__arrow { border-top-color: var(--ml-border); }
+  .el-popper[x-placement^="top"] .popper__arrow::after { border-top-color: var(--ml-surface); }
+
+  .el-message-box {
+    background-color: var(--ml-surface);
+    border-color: var(--ml-border);
+    .el-message-box__title { color: var(--ml-text); }
+    .el-message-box__content { color: var(--ml-text-muted); }
+  }
+}
+
+// Τα $message μπαίνουν στο <body>, οπότε θέλουν ξεχωριστό selector
+html.dark .el-message {
+  background-color: #22252b;
+  border-color: var(--ml-border);
+}

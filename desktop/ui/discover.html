@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'" />
+  <title>MeteoLogger</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
+      font-family: "Segoe UI", system-ui, sans-serif; background: #f2f5fa; color: #1f2d3d;
+    }
+    .card {
+      width: 460px; background: #fff; border-radius: 12px; padding: 32px;
+      box-shadow: 0 6px 24px rgba(20, 50, 100, .12); text-align: center;
+    }
+    img.logo { width: 88px; height: 88px; }
+    h1 { font-size: 22px; margin: 8px 0 4px; }
+    h1 span { color: #409eff; }
+    .status { color: #5a6b7d; margin: 12px 0 20px; min-height: 22px; }
+    .error { color: #d93025; }
+    .spinner {
+      width: 28px; height: 28px; margin: 0 auto 8px; border: 3px solid #dbe6f5;
+      border-top-color: #409eff; border-radius: 50%; animation: spin .9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    ul { list-style: none; padding: 0; margin: 0 0 16px; text-align: left; }
+    li button {
+      width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px; cursor: pointer;
+      border: 1px solid #dcdfe6; border-radius: 8px; background: #fff; font-size: 14px;
+    }
+    li button:hover { border-color: #409eff; background: #ecf5ff; }
+    li small { display: block; color: #8492a6; margin-top: 2px; }
+    .manual { display: flex; gap: 8px; margin-top: 8px; }
+    input {
+      flex: 1; padding: 9px 12px; border: 1px solid #dcdfe6; border-radius: 6px; font-size: 14px;
+    }
+    .btn {
+      padding: 9px 16px; border: 0; border-radius: 6px; background: #409eff; color: #fff;
+      cursor: pointer; font-size: 14px;
+    }
+    .btn.secondary { background: #fff; color: #409eff; border: 1px solid #409eff; }
+    .hint { font-size: 12px; color: #8492a6; margin-top: 16px; line-height: 1.5; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="../build/icon.png" alt="" />
+    <h1>Meteo<span>Logger</span></h1>
+
+    <div id="spinner" class="spinner"></div>
+    <div id="status" class="status">Αναζήτηση server στο δίκτυο…</div>
+
+    <ul id="list" class="hidden"></ul>
+
+    <div id="manualBox" class="hidden">
+      <div class="manual">
+        <input id="manual" placeholder="π.χ. meteo-lab.local ή 192.168.1.50" />
+        <button id="manualBtn" class="btn">Σύνδεση</button>
+      </div>
+      <p><button id="retry" class="btn secondary">Νέα αναζήτηση</button></p>
+      <div class="hint">
+        Αν ο server δεν βρίσκεται αυτόματα: βεβαιώσου ότι είσαι στο ίδιο δίκτυο,
+        ότι το δίκτυο των Windows είναι «Ιδιωτικό» και ότι επιτρέπεται η
+        εφαρμογή στο Τείχος προστασίας.
+      </div>
+    </div>
+  </div>
+  <script src="discover.js"></script>
+</body>
+</html>

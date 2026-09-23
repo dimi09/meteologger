@@ -1,13 +1,7 @@
 <template>
-  <div>
-    <div class="page-title">Γραφήματα & Monitoring</div>
-    <el-alert type="info" :closable="false" style="margin-bottom:14px"
-      title="Τα dashboards φιλοξενούνται στο Grafana. Αν δεν φορτώνει ενσωματωμένο, χρησιμοποίησε το κουμπί." >
-    </el-alert>
-    <el-button type="primary" icon="el-icon-top-right" @click="open" style="margin-bottom:14px">
-      Άνοιγμα Grafana σε νέα καρτέλα
-    </el-button>
-    <iframe class="grafana-frame" :src="grafanaUrl"></iframe>
+  <!-- Το Grafana γεμίζει όλο τον χώρο περιεχομένου (header & μενού μένουν ως έχουν) -->
+  <div class="grafana-page">
+    <iframe class="grafana-frame" :src="grafanaSrc" title="Grafana"></iframe>
   </div>
 </template>
 
@@ -21,8 +15,13 @@ export default {
       if (process.env.VUE_APP_GRAFANA_URL) return process.env.VUE_APP_GRAFANA_URL;
       const { protocol, hostname } = window.location;
       return `${protocol}//${hostname}:3000/`;
+    },
+    // Το Grafana ακολουθεί το θέμα της εφαρμογής (?theme=dark|light)
+    grafanaSrc() {
+      const url = new URL(this.grafanaUrl, window.location.href);
+      url.searchParams.set("theme", this.$theme.dark ? "dark" : "light");
+      return url.toString();
     }
-  },
-  methods: { open() { window.open(this.grafanaUrl, "_blank"); } }
+  }
 };
 </script>
